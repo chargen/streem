@@ -226,17 +226,17 @@ write_cb(strm_stream *strm, void *data)
 {
   const char *p = (char*)data;
 
-  write((int)strm->data, p, strlen(p));
+  write((int)(intptr_t) strm->data, p, strlen(p));
 }
 
 static void
 write_close(strm_stream *strm, void *d)
 {
-  close((int)strm->data);
+  close((int)(intptr_t) strm->data);
 }
 
 strm_stream*
 strm_writeio(int fd)
 {
-  return strm_alloc_stream(strm_task_cons, write_cb, write_close, (void*)fd);
+  return strm_alloc_stream(strm_task_cons, write_cb, write_close, (void*)(intptr_t) fd);
 }
